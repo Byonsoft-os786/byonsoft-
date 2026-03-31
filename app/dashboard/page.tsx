@@ -1,8 +1,10 @@
 import React from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { db } from "../lib/db";
-import { users } from "../lib/schema";
+
+// 🔴 FIX: Yahan ../ ki jagah ../../ lagaya hai taake sahi folder mil jaye
+import { db } from "../../lib/db";
+import { users } from "../../lib/schema";
 import { eq } from "drizzle-orm";
 import { logoutUser } from "../actions";
 
