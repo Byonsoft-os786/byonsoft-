@@ -4,6 +4,7 @@ import { db } from "../lib/db";
 import { users } from "../lib/schema";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
 
 export async function signUpUser(formData: FormData) {
   try {
@@ -22,7 +23,7 @@ export async function signUpUser(formData: FormData) {
       return { error: "Yeh email pehle se registered hai! Koi aur use karein." };
     }
 
-    // Password ko encrypt (hide) karna taake hack na ho
+    // Password ko encrypt (hide) karna
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Database mein user save karna
@@ -39,8 +40,6 @@ export async function signUpUser(formData: FormData) {
     return { error: "Database se connect nahi ho paya. Thodi der baad try karein." };
   }
 }
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function loginUser(formData: FormData) {
   try {
@@ -65,8 +64,9 @@ export async function loginUser(formData: FormData) {
       return { error: "Password ghalat hai!" };
     }
 
-    // Login successful - Simple Cookie set kar rahe hain
-    cookies().set("user_session", user.id.toString(), {
+    // 🔴 FIX: Next.js 15 ke liye 'await cookies()' use kiya hai
+    const cookieStore = await cookies();
+    cookieStore.set("user_session", user.id.toString(), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 7, // 7 days
