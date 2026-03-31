@@ -79,3 +79,7 @@ export async function loginUser(formData: FormData) {
     return { error: "Server masla kar raha hai. Thodi der baad try karein." };
   }
 }
+export async function logoutUser() {
+  const cookieStore = await cookies();
+  cookieStore.delete("user_session");
+}
