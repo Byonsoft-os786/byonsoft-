@@ -146,7 +146,7 @@ export async function generateRoadmap(formData: FormData) {
         { role: "system", content: systemInstruction },
         { role: "user", content: userContext }
       ],
-      model: "llama3-8b-8192",
+      model: "llama-3.1-8b-instant",
       temperature: 0.7,
       max_tokens: 800,
     });
