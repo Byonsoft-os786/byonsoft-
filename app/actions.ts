@@ -39,3 +39,43 @@ export async function signUpUser(formData: FormData) {
     return { error: "Database se connect nahi ho paya. Thodi der baad try karein." };
   }
 }
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export async function loginUser(formData: FormData) {
+  try {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    if (!email || !password) {
+      return { error: "Email aur Password dono zaroori hain!" };
+    }
+
+    // Database mein user dhoondna
+    const existingUsers = await db.select().from(users).where(eq(users.email, email));
+    const user = existingUsers[0];
+
+    if (!user) {
+      return { error: "Yeh account mojood nahi. Pehle Signup karein." };
+    }
+
+    // Password check karna
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return { error: "Password ghalat hai!" };
+    }
+
+    // Login successful - Simple Cookie set kar rahe hain
+    cookies().set("user_session", user.id.toString(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: "/",
+    });
+
+    return { success: true };
+  } catch (err: any) {
+    console.error("Login Error:", err);
+    return { error: "Server masla kar raha hai. Thodi der baad try karein." };
+  }
+}
