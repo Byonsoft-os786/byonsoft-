@@ -143,3 +143,88 @@ export async function generateRoadmap(formData: FormData) {
     return { error: "AI Engine is waqt overload hai. Thodi der baad try karein." };
   }
 }
+import Groq from "groq-sdk";
+
+export async function generateRoadmap(formData: FormData) {
+  try {
+    // 1. User ka sara data pakarna
+    const skillLevel = formData.get("skillLevel");
+    const englishLevel = formData.get("englishLevel");
+    const dedication = formData.get("dedication");
+    const q1Skill = formData.get("q1Skill");
+    const q2Struggle = formData.get("q2Struggle");
+    const q3Time = formData.get("q3Time");
+    const q4Market = formData.get("q4Market");
+
+    if (!q1Skill || !q2Struggle) {
+      return { error: "Bhai, zaroori sawalat ke jawabat toh dein!" };
+    }
+
+    const apiKeys = [
+      process.env.GROQ_API_KEY_1,
+      process.env.GROQ_API_KEY_2,
+      process.env.GROQ_API_KEY_3,
+      process.env.GROQ_API_KEY_4,
+      process.env.GROQ_API_KEY_5,
+      process.env.GROQ_API_KEY_6,
+      process.env.GROQ_API_KEY_7,
+    ].filter(Boolean) as string[];
+
+    if (apiKeys.length === 0) {
+      return { error: "Vercel mein API Keys set nahi hain!" };
+    }
+
+    const randomKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+    const groq = new Groq({ apiKey: randomKey });
+
+    // 2. AI ko context dena ke user kon hai
+    const userContext = `
+      User Stats:
+      - Current Skill Level: ${skillLevel}%
+      - English Communication: ${englishLevel}%
+      - Dedication/Hardwork: ${dedication}%
+      
+      Answers:
+      1. Main Skill: ${q1Skill}
+      2. Biggest Struggle: ${q2Struggle}
+      3. Daily Time: ${q3Time}
+      4. Target Market: ${q4Market}
+    `;
+
+    // 3. AI ko Sakht Instructions (Prompt Engineering)
+    const systemInstruction = `You are an elite AI Career Architect for Byonsoft Academy.
+    The user's goal is to hit 100,000 PKR monthly profit by April.
+    Based on the user's stats and answers, provide a highly personalized, aggressive plan.
+    Use Roman Urdu mixed with simple English. 
+    
+    YOU MUST FORMAT YOUR RESPONSE EXACTLY IN THESE 3 SECTIONS:
+    
+    ### 💰 EARNING POTENTIAL
+    (Give a realistic monthly earning estimate if they follow the plan, hype them up!)
+    
+    ### 🗺️ 30-DAY ACTION ROADMAP
+    (Give specific, actionable steps for the next 30 days based on their daily time commitment. No fluff.)
+    
+    ### 🎯 HOW TO GET YOUR FIRST CLIENT
+    (Give a direct strategy to get their first client based on their target market and struggle. E.g., Cold email script, Facebook group strategy, etc.)
+    `;
+
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        { role: "system", content: systemInstruction },
+        { role: "user", content: userContext }
+      ],
+      model: "llama3-8b-8192",
+      temperature: 0.7,
+      max_tokens: 800,
+    });
+
+    const aiResponse = chatCompletion.choices[0]?.message?.content || "AI ne jawab nahi diya. Dobara try karein.";
+
+    return { success: true, roadmap: aiResponse };
+
+  } catch (err: any) {
+    console.error("AI Error:", err);
+    return { error: "AI Engine is waqt overload hai. Thodi der baad try karein." };
+  }
+}
