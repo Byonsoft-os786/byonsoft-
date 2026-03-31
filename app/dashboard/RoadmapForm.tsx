@@ -7,7 +7,7 @@ export default function RoadmapForm() {
   const [roadmap, setRoadmap] = useState("");
   const [error, setError] = useState("");
 
-  // Progress Bars State
+  // Progress Bars ki State
   const [skillLevel, setSkillLevel] = useState(20);
   const [englishLevel, setEnglishLevel] = useState(40);
   const [dedication, setDedication] = useState(80);
@@ -36,10 +36,10 @@ export default function RoadmapForm() {
     <div className="mt-8 w-full max-w-3xl mx-auto">
       
       {!roadmap ? (
-        <form action={handleSubmit} className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-[32px] backdrop-blur-xl text-left">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-yellow-400 mb-2">AI Setup ⚡</h2>
-            <p className="text-gray-400 text-sm">Apni profile set karein taake AI accurate roadmap banaye.</p>
+        <form action={handleSubmit} className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-[32px] backdrop-blur-xl text-left shadow-2xl">
+          <div className="mb-8 text-center md:text-left">
+            <h2 className="text-2xl font-bold text-yellow-400 mb-2">AI Career Setup ⚡</h2>
+            <p className="text-gray-400 text-sm">Apni profile set karein taake AI 100% accurate roadmap banaye.</p>
           </div>
 
           {/* 3 Progress Bars */}
@@ -81,10 +81,10 @@ export default function RoadmapForm() {
               <input type="text" name="q2Struggle" required placeholder="e.g. Clients nahi milte, Portfolio nahi hai" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-yellow-400/50 outline-none transition-all text-sm" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-gray-400 mb-2 ml-1">3. Daily Time?</label>
-                <select name="q3Time" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-yellow-400/50 outline-none transition-all text-sm text-gray-300 appearance-none">
+                <select name="q3Time" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-yellow-400/50 outline-none transition-all text-sm text-gray-300">
                   <option value="1-2 Hours">1-2 Ghante</option>
                   <option value="3-5 Hours">3-5 Ghante</option>
                   <option value="Full Time">Full Time (8+ Hrs)</option>
@@ -92,7 +92,7 @@ export default function RoadmapForm() {
               </div>
               <div>
                 <label className="block text-xs font-bold text-gray-400 mb-2 ml-1">4. Target Clients?</label>
-                <select name="q4Market" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-yellow-400/50 outline-none transition-all text-sm text-gray-300 appearance-none">
+                <select name="q4Market" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 focus:border-yellow-400/50 outline-none transition-all text-sm text-gray-300">
                   <option value="International (Gora)">International (Gore)</option>
                   <option value="Local (Pakistan)">Local (Pakistan)</option>
                   <option value="Both">Dono (Any)</option>
@@ -101,12 +101,12 @@ export default function RoadmapForm() {
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full bg-yellow-400 text-black font-bold py-4 rounded-xl hover:bg-yellow-300 transition-all shadow-[0_0_20px_rgba(250,204,21,0.2)] disabled:opacity-50">
-            {loading ? "System Analyzing Data ⏳..." : "Generate 100k PKR Blueprint 🚀"}
+          <button type="submit" disabled={loading} className="w-full bg-yellow-400 text-black font-bold py-4 rounded-xl hover:bg-yellow-300 transition-all shadow-[0_0_20px_rgba(250,204,21,0.2)] disabled:opacity-50 text-lg">
+            {loading ? "AI Blueprint Bana Raha Hai ⏳..." : "Generate 100k PKR Blueprint 🚀"}
           </button>
         </form>
       ) : (
-        /* Result Area */
+        /* AI Ka Result Area */
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
           <button onClick={() => setRoadmap("")} className="mb-6 text-sm text-gray-400 hover:text-yellow-400 flex items-center gap-2 transition-colors">
             ← Naya Roadmap Banayein
