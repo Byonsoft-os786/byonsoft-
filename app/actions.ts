@@ -5,6 +5,7 @@ import { users } from "../lib/schema";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
+import Groq from "groq-sdk";
 
 export async function signUpUser(formData: FormData) {
   try {
@@ -17,16 +18,13 @@ export async function signUpUser(formData: FormData) {
       return { error: "Tamam fields zaroori hain!" };
     }
 
-    // Check karein ke email pehle se toh nahi bani hui
     const existingUser = await db.select().from(users).where(eq(users.email, email));
     if (existingUser.length > 0) {
       return { error: "Yeh email pehle se registered hai! Koi aur use karein." };
     }
 
-    // Password ko encrypt (hide) karna
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Database mein user save karna
     await db.insert(users).values({
       name,
       email,
@@ -50,7 +48,6 @@ export async function loginUser(formData: FormData) {
       return { error: "Email aur Password dono zaroori hain!" };
     }
 
-    // Database mein user dhoondna
     const existingUsers = await db.select().from(users).where(eq(users.email, email));
     const user = existingUsers[0];
 
@@ -58,13 +55,11 @@ export async function loginUser(formData: FormData) {
       return { error: "Yeh account mojood nahi. Pehle Signup karein." };
     }
 
-    // Password check karna
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return { error: "Password ghalat hai!" };
     }
 
-    // 🔴 FIX: Next.js 15 ke liye 'await cookies()' use kiya hai
     const cookieStore = await cookies();
     cookieStore.set("user_session", user.id.toString(), {
       httpOnly: true,
@@ -79,75 +74,14 @@ export async function loginUser(formData: FormData) {
     return { error: "Server masla kar raha hai. Thodi der baad try karein." };
   }
 }
-// (Upar apka signUpUser aur loginUser likha hoga, uske neechay yeh paste karein)
 
 export async function logoutUser() {
   const cookieStore = await cookies();
   cookieStore.delete("user_session");
 }
-// (Upar apka purana code signup, login, logout wala mojood rahega)
-
-import Groq from "groq-sdk";
 
 export async function generateRoadmap(formData: FormData) {
   try {
-    const userPrompt = formData.get("prompt") as string;
-    
-    if (!userPrompt) {
-      return { error: "Bhai, kuch likh kar toh batao!" };
-    }
-
-    // 🔥 ADVANCED KEY ROTATION SYSTEM 🔥
-    // System Vercel se sari keys uthayega aur jo khali hongi unko nikal dega
-    const apiKeys = [
-      process.env.GROQ_API_KEY_1,
-      process.env.GROQ_API_KEY_2,
-      process.env.GROQ_API_KEY_3,
-      process.env.GROQ_API_KEY_4,
-      process.env.GROQ_API_KEY_5,
-      process.env.GROQ_API_KEY_6,
-      process.env.GROQ_API_KEY_7,
-    ].filter(Boolean) as string[];
-
-    if (apiKeys.length === 0) {
-      return { error: "Vercel mein API Keys set nahi hain!" };
-    }
-
-    // Randomly 7 mein se 1 key select karna taake load balance ho
-    const randomKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
-    const groq = new Groq({ apiKey: randomKey });
-
-    // AI ko instruction (System Prompt)
-    const systemInstruction = `You are an elite AI Career Architect for Byonsoft Academy. 
-    The user's goal is to reach 100,000 PKR monthly profit by April. 
-    Write a highly actionable, aggressive, and direct 30-day roadmap based on their input. 
-    Use Roman Urdu mixed with simple English. Keep it punchy, no fluff. Give 3 clear bullet points for the next 7 days.`;
-
-    // Groq AI se jawab mangwana (Llama 3 model use kar rahe hain jo fast hai)
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        { role: "system", content: systemInstruction },
-        { role: "user", content: userPrompt }
-      ],
-      model: "llama3-8b-8192",
-      temperature: 0.7,
-      max_tokens: 500,
-    });
-
-    const aiResponse = chatCompletion.choices[0]?.message?.content || "AI ne jawab nahi diya. Dobara try karein.";
-
-    return { success: true, roadmap: aiResponse };
-
-  } catch (err: any) {
-    console.error("AI Error:", err);
-    return { error: "AI Engine is waqt overload hai. Thodi der baad try karein." };
-  }
-}
-import Groq from "groq-sdk";
-
-export async function generateRoadmap(formData: FormData) {
-  try {
-    // 1. User ka sara data pakarna
     const skillLevel = formData.get("skillLevel");
     const englishLevel = formData.get("englishLevel");
     const dedication = formData.get("dedication");
@@ -177,7 +111,6 @@ export async function generateRoadmap(formData: FormData) {
     const randomKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
     const groq = new Groq({ apiKey: randomKey });
 
-    // 2. AI ko context dena ke user kon hai
     const userContext = `
       User Stats:
       - Current Skill Level: ${skillLevel}%
@@ -191,7 +124,6 @@ export async function generateRoadmap(formData: FormData) {
       4. Target Market: ${q4Market}
     `;
 
-    // 3. AI ko Sakht Instructions (Prompt Engineering)
     const systemInstruction = `You are an elite AI Career Architect for Byonsoft Academy.
     The user's goal is to hit 100,000 PKR monthly profit by April.
     Based on the user's stats and answers, provide a highly personalized, aggressive plan.
