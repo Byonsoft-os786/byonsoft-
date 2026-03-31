@@ -3,181 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byonsoft Academy | Elite Digital Skills</title>
+    <title>Byonsoft Academy | Premium AI Learning</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { 
-            background-color: #050505; 
-            color: #ffffff; 
-            font-family: system-ui, -apple-system, sans-serif; 
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+        :root { --gold: #facc15; --dark: #050505; }
+        body { background-color: var(--dark); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* 1. Cinematic Background Blobs */
-        .ai-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.4;
-            z-index: -1;
-            animation: floatBlob 12s infinite ease-in-out alternate;
-        }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #eab308; } 
-        .blob-2 { bottom: 10%; right: -10%; width: 40vw; height: 40vw; background: #a16207; animation-delay: -5s; } 
-
-        @keyframes floatBlob {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(5vw, 5vh) scale(1.1); }
-        }
-
-        /* 2. Cinematic Text Reveal Animations */
-        .reveal-text { 
-            opacity: 0; 
-            transform: translateY(30px);
-            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; 
-        }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.3s; }
-        .delay-3 { animation-delay: 0.5s; }
-        .delay-4 { animation-delay: 0.7s; }
+        /* 1. Animated Background Particles */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; pointer-events: none; }
         
-        @keyframes fadeInUp { 
-            to { opacity: 1; transform: translateY(0); } 
+        /* 2. Advanced Border Glow Animation */
+        @keyframes borderRotate { 100% { transform: rotate(360deg); } }
+        .fancy-border-card {
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .fancy-border-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--gold));
+            animation: borderRotate 4s linear infinite; z-index: -1;
+        }
+        .fancy-border-card::after {
+            content: ''; position: absolute; inset: 2px; background: var(--dark);
+            border-radius: 22px; z-index: -1;
         }
 
-        /* 3. Advanced 3D Hover Cards */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(250, 204, 21, 0.5); /* Yellow border on hover */
-            box-shadow: 0 20px 40px -10px rgba(250, 204, 21, 0.15);
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .icon-float { transition: transform 0.4s ease; }
-        .glass-card:hover .icon-float { transform: translateY(-8px) scale(1.1); }
+        /* 3. Scroll Reveal Logic */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 4. Radioactive Glow Button */
-        .glow-btn { position: relative; z-index: 1; }
-        .glow-btn::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #facc15, #ca8a04, #fef08a);
-            z-index: -1;
-            border-radius: inherit;
-            filter: blur(15px);
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .glow-btn:hover::before { opacity: 1; animation: pulseGlow 2s linear infinite alternate; }
-        @keyframes pulseGlow {
-            0% { filter: blur(12px); }
-            100% { filter: blur(24px); }
-        }
+        /* 4. Floating Animation for Hero */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .hero-float { animation: float 5s ease-in-out infinite; }
     </style>
 </head>
-<body class="relative w-full">
-    
-    <div class="ai-blob blob-1"></div>
-    <div class="ai-blob blob-2"></div>
+<body>
 
-    <nav class="w-full p-5 md:p-6 flex justify-between items-center border-b border-white/5 relative z-20 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <div class="text-2xl font-black tracking-tighter cursor-pointer hover:scale-105 transition-transform">
-                <span class="text-yellow-400">BYON</span>SOFT
-            </div>
-            <button class="border border-yellow-400/50 text-yellow-400 px-5 py-2 md:px-6 rounded-xl font-bold hover:bg-yellow-400 hover:text-black hover:shadow-[0_0_15px_rgba(250,204,21,0.5)] transition-all duration-300 text-sm md:text-base">
-                Client Login
-            </button>
+    <div class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-yellow-600/10 blur-[120px] rounded-full"></div>
+
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-xl border-b border-white/5 p-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter"><span class="text-yellow-400">BYON</span>SOFT</div>
+            <button class="bg-yellow-400 text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition-all text-sm">Join Elite</button>
         </div>
     </nav>
 
-    <main class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[85vh] flex flex-col justify-center items-center text-center">
-        
-        <div class="reveal-text delay-1 inline-flex items-center gap-2 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold mb-6 md:mb-8 backdrop-blur-md">
-            <span class="relative flex h-2.5 w-2.5">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-500"></span>
-            </span>
-            Byonsoft Academy 2.0
-        </div>
-
-        <h1 class="reveal-text delay-2 text-4xl sm:text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight max-w-4xl mx-auto">
-            Build High-Income Skills. <br/> 
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600">
-                Command Your Worth.
-            </span>
-        </h1>
-        
-        <p class="reveal-text delay-3 text-gray-400 text-base sm:text-lg md:text-xl font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
-            Stop trading time for pennies. Join the elite network of freelancers using our AI roadmaps and proven client-acquisition strategies.
-        </p>
-        
-        <div class="reveal-text delay-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-2">
-            <button class="glow-btn bg-yellow-400 text-black px-8 py-4 rounded-xl font-black text-[15px] md:text-lg hover:bg-yellow-300 transition-all w-full sm:w-auto transform hover:-translate-y-1">
-                Start Earning Today
-            </button>
-            <button class="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl font-bold text-[15px] md:text-lg hover:bg-white/10 transition-all w-full sm:w-auto transform hover:-translate-y-1 backdrop-blur-md">
-                View Masterclasses
-            </button>
-        </div>
-    </main>
-
-    <section class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 mt-10">
-        
-        <div class="text-center mb-16 reveal-text delay-2">
-            <h2 class="text-3xl md:text-5xl font-black mb-4 text-white">The <span class="text-yellow-400">Blueprint</span> to Success</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">We engineered a system that forces you to grow. No fluff, just results.</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            
-            <div class="glass-card p-8 md:p-10 rounded-2xl group cursor-pointer reveal-text delay-2">
-                <div class="icon-float w-16 h-16 bg-gradient-to-br from-yellow-400/20 to-yellow-600/10 border border-yellow-400/20 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-[0_0_20px_rgba(250,204,21,0.15)]">
-                    🧠
-                </div>
-                <h3 class="text-xl md:text-2xl font-bold mb-3 text-white tracking-tight">AI Career Architect</h3>
-                <p class="text-gray-400 text-sm md:text-base leading-relaxed">
-                    Stop guessing. Our AI analyzes your goals and available resources to craft a hyper-personalized roadmap to your first $1,000/mo.
-                </p>
+    <header class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20">
+        <div class="hero-float">
+            <span class="bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6 inline-block">The Future is Here</span>
+            <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tight leading-none">
+                SKILLS THAT <br/> <span class="text-yellow-400 italic">PAY BILLS.</span>
+            </h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl mb-10 leading-relaxed">
+                Byonsoft Academy is the only platform that uses AI to map your career and connects you with high-ticket international clients.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button class="bg-white text-black px-10 py-4 rounded-2xl font-black text-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all">Enroll Now</button>
+                <button class="border border-white/20 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all">Watch Demo</button>
             </div>
+        </div>
+    </header>
 
-            <div class="glass-card p-8 md:p-10 rounded-2xl group cursor-pointer reveal-text delay-3">
-                <div class="icon-float w-16 h-16 bg-gradient-to-br from-yellow-400/20 to-yellow-600/10 border border-yellow-400/20 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-[0_0_20px_rgba(250,204,21,0.15)]">
-                    ⚡
-                </div>
-                <h3 class="text-xl md:text-2xl font-bold mb-3 text-white tracking-tight">Elite Skill Forge</h3>
-                <p class="text-gray-400 text-sm md:text-base leading-relaxed">
-                    Access premium, bite-sized, and highly actionable video modules. We only teach skills that the global market is aggressively buying.
-                </p>
-            </div>
-
-            <div class="glass-card p-8 md:p-10 rounded-2xl group cursor-pointer reveal-text delay-4">
-                <div class="icon-float w-16 h-16 bg-gradient-to-br from-yellow-400/20 to-yellow-600/10 border border-yellow-400/20 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-[0_0_20px_rgba(250,204,21,0.15)]">
-                    💼
-                </div>
-                <h3 class="text-xl md:text-2xl font-bold mb-3 text-white tracking-tight">Client Engine</h3>
-                <p class="text-gray-400 text-sm md:text-base leading-relaxed">
-                    Skills are useless without buyers. Unlock our proven outreach scripts, portfolio templates, and client-hunting strategies.
-                </p>
-            </div>
-
+    <section id="features" class="max-w-7xl mx-auto px-6 py-32 grid md:grid-cols-3 gap-8">
+        <div class="reveal fancy-border-card p-10">
+            <div class="text-4xl mb-6">🤖</div>
+            <h3 class="text-2xl font-bold mb-4 text-yellow-400">AI Blueprint</h3>
+            <p class="text-gray-400">Custom learning path built for YOUR speed and YOUR device. No more guessing.</p>
+        </div>
+        <div class="reveal fancy-border-card p-10">
+            <div class="text-4xl mb-6">💎</div>
+            <h3 class="text-2xl font-bold mb-4 text-yellow-400">Elite Modules</h3>
+            <p class="text-gray-400">High-definition masterclasses on Web3, AI Automation, and Digital Sales.</p>
+        </div>
+        <div class="reveal fancy-border-card p-10">
+            <div class="text-4xl mb-6">💰</div>
+            <h3 class="text-2xl font-bold mb-4 text-yellow-400">Client Hunter</h3>
+            <p class="text-gray-400">Our exclusive system to find, pitch, and close $1,000+ monthly retainers.</p>
         </div>
     </section>
 
-    <footer class="w-full border-t border-white/5 py-8 text-center text-gray-600 text-sm relative z-10 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="font-bold text-gray-400 mb-1">Byonsoft OS</p>
-            <p>© 2026 Byonsoft Academy. Engineered for High Performers.</p>
+    <section class="max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
+        <div class="text-center mb-20 reveal">
+            <h2 class="text-4xl md:text-6xl font-black mb-4 uppercase">The Elite <span class="text-yellow-400 underline">Results</span></h2>
+            <p class="text-gray-500">Real people. Real results. Real freedom.</p>
         </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all">
+                <div class="font-black text-2xl text-yellow-400 mb-1">$4,200/mo</div>
+                <div class="text-sm text-gray-400 italic">"Closed my first US client."</div>
+            </div>
+            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all delay-100">
+                <div class="font-black text-2xl text-yellow-400 mb-1">PKR 150k</div>
+                <div class="text-sm text-gray-400 italic">"Byonsoft changed my life."</div>
+            </div>
+            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all delay-200">
+                <div class="font-black text-2xl text-yellow-400 mb-1">2 Weeks</div>
+                <div class="text-sm text-gray-400 italic">"Time it took to learn & earn."</div>
+            </div>
+            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all delay-300">
+                <div class="font-black text-2xl text-yellow-400 mb-1">$50/hr</div>
+                <div class="text-sm text-gray-400 italic">"Average student hourly rate."</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-gray-600 text-sm border-t border-white/5">
+        © 2026 BYONSOFT ACADEMY | NO MORE EXCUSES.
     </footer>
 
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Run once on load
+    </script>
 </body>
 </html>
