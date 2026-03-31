@@ -3,115 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byonsoft Academy | Premium AI Learning</title>
+    <title>Byonsoft Academy | Seekho aur Kamao</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #facc15; --dark: #050505; }
-        body { background-color: var(--dark); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: var(--dark); color: #fff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
 
-        /* 1. Animated Background Particles */
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; pointer-events: none; }
-        
-        /* 2. Advanced Border Glow Animation */
-        @keyframes borderRotate { 100% { transform: rotate(360deg); } }
-        .fancy-border-card {
-            position: relative;
-            background: rgba(255,255,255,0.03);
-            border-radius: 24px;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .fancy-border-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, transparent, transparent, var(--gold));
-            animation: borderRotate 4s linear infinite; z-index: -1;
-        }
-        .fancy-border-card::after {
-            content: ''; position: absolute; inset: 2px; background: var(--dark);
-            border-radius: 22px; z-index: -1;
-        }
-
-        /* 3. Scroll Reveal Logic */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        /* Smooth Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 4. Floating Animation for Hero */
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        .hero-float { animation: float 5s ease-in-out infinite; }
+        /* Advanced Border Glow for Features */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+        .feature-card:hover { border-color: var(--gold); transform: scale(1.02); }
+
+        /* Realistic WhatsApp Proof Style */
+        .proof-card {
+            background: #121212;
+            border-left: 4px solid #25D366; /* WhatsApp Green */
+            border-radius: 15px;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .hero-glow {
+            box-shadow: 0 0 60px -10px rgba(250, 204, 21, 0.3);
+        }
     </style>
 </head>
 <body>
 
-    <div class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-yellow-600/10 blur-[120px] rounded-full"></div>
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
+        <div class="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-yellow-500/10 blur-[100px] rounded-full"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-yellow-600/5 blur-[100px] rounded-full"></div>
+    </div>
 
-    <nav class="fixed top-0 w-full z-50 backdrop-blur-xl border-b border-white/5 p-5">
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-black tracking-tighter"><span class="text-yellow-400">BYON</span>SOFT</div>
-            <button class="bg-yellow-400 text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition-all text-sm">Join Elite</button>
+            <div class="text-xl font-bold tracking-tighter"><span class="text-yellow-400">BYON</span>SOFT</div>
+            <button class="bg-yellow-400 text-black px-5 py-2 rounded-xl font-bold text-sm hover:bg-yellow-300">Shuru Karein</button>
         </div>
     </nav>
 
     <header class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20">
-        <div class="hero-float">
-            <span class="bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6 inline-block">The Future is Here</span>
-            <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tight leading-none">
-                SKILLS THAT <br/> <span class="text-yellow-400 italic">PAY BILLS.</span>
+        <div class="reveal active">
+            <span class="bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 inline-block">Mobile se Paisay Kamao</span>
+            <h1 class="text-4xl md:text-7xl font-bold mb-6 leading-tight">
+                Sirf Skills Nahi, <br/> <span class="text-yellow-400">Kamai Ka Raasta.</span>
             </h1>
-            <p class="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl mb-10 leading-relaxed">
-                Byonsoft Academy is the only platform that uses AI to map your career and connects you with high-ticket international clients.
+            <p class="text-gray-400 max-w-xl mx-auto text-base md:text-lg mb-10 leading-relaxed">
+                Byonsoft Academy mein hum aapko AI ki madad se woh skills sikhate hain jo aapke mobile se hi international clients dhoond kar dein gi.
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button class="bg-white text-black px-10 py-4 rounded-2xl font-black text-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all">Enroll Now</button>
-                <button class="border border-white/20 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all">Watch Demo</button>
+            <div class="flex flex-col md:flex-row gap-4 justify-center w-full max-w-md mx-auto">
+                <button class="bg-white text-black px-8 py-4 rounded-2xl font-bold text-lg hero-glow hover:scale-105 transition-all">Abhi Join Karein</button>
+                <button class="border border-white/20 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/5">Courses Dekhein</button>
             </div>
         </div>
     </header>
 
-    <section id="features" class="max-w-7xl mx-auto px-6 py-32 grid md:grid-cols-3 gap-8">
-        <div class="reveal fancy-border-card p-10">
-            <div class="text-4xl mb-6">🤖</div>
-            <h3 class="text-2xl font-bold mb-4 text-yellow-400">AI Blueprint</h3>
-            <p class="text-gray-400">Custom learning path built for YOUR speed and YOUR device. No more guessing.</p>
-        </div>
-        <div class="reveal fancy-border-card p-10">
-            <div class="text-4xl mb-6">💎</div>
-            <h3 class="text-2xl font-bold mb-4 text-yellow-400">Elite Modules</h3>
-            <p class="text-gray-400">High-definition masterclasses on Web3, AI Automation, and Digital Sales.</p>
-        </div>
-        <div class="reveal fancy-border-card p-10">
-            <div class="text-4xl mb-6">💰</div>
-            <h3 class="text-2xl font-bold mb-4 text-yellow-400">Client Hunter</h3>
-            <p class="text-gray-400">Our exclusive system to find, pitch, and close $1,000+ monthly retainers.</p>
-        </div>
-    </section>
-
-    <section class="max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
-        <div class="text-center mb-20 reveal">
-            <h2 class="text-4xl md:text-6xl font-black mb-4 uppercase">The Elite <span class="text-yellow-400 underline">Results</span></h2>
-            <p class="text-gray-500">Real people. Real results. Real freedom.</p>
-        </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all">
-                <div class="font-black text-2xl text-yellow-400 mb-1">$4,200/mo</div>
-                <div class="text-sm text-gray-400 italic">"Closed my first US client."</div>
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="reveal feature-card p-8 rounded-3xl">
+                <div class="text-3xl mb-4">🧠</div>
+                <h3 class="text-xl font-bold mb-3 text-yellow-400">AI Career Roadmap</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Fuzool cheezein chorain. AI bataye ga ke aap ke background ke hisaab se kon sa hunar (skill) aap ko jaldi paisay kama kar de sakta hai.</p>
             </div>
-            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all delay-100">
-                <div class="font-black text-2xl text-yellow-400 mb-1">PKR 150k</div>
-                <div class="text-sm text-gray-400 italic">"Byonsoft changed my life."</div>
+            <div class="reveal feature-card p-8 rounded-3xl">
+                <div class="text-3xl mb-4">📱</div>
+                <h3 class="text-xl font-bold mb-3 text-yellow-400">Mobile Friendly Masterclass</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Laptop nahi hai? Koi masla nahi. Humare premium courses khas taur par mobile par seekhne aur kaam karne ke liye banaye gaye hain.</p>
             </div>
-            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all delay-200">
-                <div class="font-black text-2xl text-yellow-400 mb-1">2 Weeks</div>
-                <div class="text-sm text-gray-400 italic">"Time it took to learn & earn."</div>
-            </div>
-            <div class="reveal bg-white/5 p-6 rounded-3xl border border-white/10 hover:border-yellow-400/50 transition-all delay-300">
-                <div class="font-black text-2xl text-yellow-400 mb-1">$50/hr</div>
-                <div class="text-sm text-gray-400 italic">"Average student hourly rate."</div>
+            <div class="reveal feature-card p-8 rounded-3xl">
+                <div class="text-3xl mb-4">🤝</div>
+                <h3 class="text-xl font-bold mb-3 text-yellow-400">Client Hunting System</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Sirf seekhna kafi nahi. Hum aap ko sikhayenge ke Fiverr aur Upwork ke baghair bahar ke clients se Dollars kaise lene hain.</p>
             </div>
         </div>
     </section>
 
-    <footer class="py-10 text-center text-gray-600 text-sm border-t border-white/5">
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+        <div class="text-center mb-12 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 uppercase">Kamyab <span class="text-yellow-400 underline">Students</span></h2>
+            <p class="text-gray-500">Yeh results hawa mein nahi, mehnat se aaye hain.</p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="reveal proof-card shadow-lg shadow-green-500/5">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-700"></div>
+                    <div>
+                        <p class="text-xs font-bold">Ahmed from Lahore</p>
+                        <p class="text-[10px] text-green-400">Verified Result</p>
+                    </div>
+                </div>
+                <p class="text-sm italic text-gray-300">"Pehle lagta tha mobile se kuch nahi hota, lekin Byonsoft ke baad pehla $500 ka project mil gaya!"</p>
+                <div class="mt-4 font-bold text-yellow-400">$500/month Earnings</div>
+            </div>
+
+            <div class="reveal proof-card shadow-lg shadow-green-500/5" style="border-left-color: #facc15;">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-700"></div>
+                    <div>
+                        <p class="text-xs font-bold">Zainab - Student</p>
+                        <p class="text-[10px] text-yellow-400">Verified Result</p>
+                    </div>
+                </div>
+                <p class="text-sm italic text-gray-300">"Maine sirf 3 hafton mein video editing seekhi aur ab local clients ke sath PKR 40k kama rahi hun."</p>
+                <div class="mt-4 font-bold text-yellow-400">PKR 40,000 Monthly</div>
+            </div>
+
+            <div class="reveal proof-card shadow-lg shadow-green-500/5">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-700"></div>
+                    <div>
+                        <p class="text-xs font-bold">Bilal Khan</p>
+                        <p class="text-[10px] text-green-400">Verified Result</p>
+                    </div>
+                </div>
+                <p class="text-sm italic text-gray-300">"Bahar ke client ko pitch karne ka tareeqa Byonsoft se behtar koi nahi sikhata. Best decision!"</p>
+                <div class="mt-4 font-bold text-yellow-400">Full-time Freelancer</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 text-center">
+        <div class="reveal bg-gradient-to-b from-yellow-400/20 to-transparent p-12 rounded-[40px] border border-yellow-400/20 max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">Abhi Bhi Soch Rahe Ho?</h2>
+            <p class="text-gray-400 mb-8">Waqt zaya mat karein. Aglay 30 din mein apni kamai shuru karein.</p>
+            <button class="bg-yellow-400 text-black px-12 py-4 rounded-2xl font-bold text-xl hover:scale-110 transition-all">Enroll Now - Rs. 750</button>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-gray-600 text-[10px] border-t border-white/5">
         © 2026 BYONSOFT ACADEMY | NO MORE EXCUSES.
     </footer>
 
@@ -121,14 +151,13 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - 100) {
                     reveals[i].classList.add("active");
                 }
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Run once on load
+        reveal();
     </script>
 </body>
 </html>
