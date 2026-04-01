@@ -2,13 +2,6 @@
 export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    import type { Config } from "tailwind.config";
-
-export default {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -17,7 +10,6 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-      // 🔴 FIX: Yahan se naya animated code add hua hai!
       animation: {
         'ticker': 'ticker 60s linear infinite',
         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
@@ -36,8 +28,4 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config;
-
-  },
-  plugins: [],
-}
+};
