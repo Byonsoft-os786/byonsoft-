@@ -213,3 +213,29 @@ export async function rejectPayment(userId: number) {
     return { error: "Rejection failed" };
   }
 }
+export async function getDriveVideos(folderId: string) {
+  const API_KEY = process.env.GOOGLE_DRIVE_API_KEY;
+  // Drive API se files fetch karna (Sirf MP4 aur videos)
+  const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType+contains+'video/'&orderBy=name&fields=files(id,name,thumbnailLink)&key=${API_KEY}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.files || [];
+  } catch (err) {
+    console.error("Drive Fetch Error:", err);
+    return [];
+  }
+}
+
+// Course add karte waqt Folder ID save karne ka action
+export async function addDriveCourse(formData: FormData) {
+  const title = formData.get("title") as string;
+  const folderId = formData.get("folder_id") as string;
+  await db.insert(courses).values({ 
+    title, 
+    drive_folder_id: folderId, 
+    category: "Premium" 
+  });
+  return { success: true };
+}
