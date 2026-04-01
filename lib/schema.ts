@@ -27,3 +27,12 @@ export const coupons = pgTable("coupons", {
   description: text("description"),
   created_at: timestamp("created_at").defaultNow(),
 });
+export const courses = pgTable("courses", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  drive_folder_id: text("drive_folder_id"), // 🔴 Naya Column
+  category: text("category"),
+  is_premium: boolean("is_premium").default(true),
+  created_at: timestamp("created_at").defaultNow(),
+});
