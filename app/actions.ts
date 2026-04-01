@@ -7,13 +7,14 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import Groq from "groq-sdk";
 
+// 🔴 Secure Signup Action
 export async function signUpUser(formData: FormData) {
   try {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const whatsapp = formData.get("whatsapp") as string;
     const password = formData.get("password") as string;
-    const skill = formData.get("skill") as string; // 🔴 Test result yahan pakra
+    const skill = formData.get("skill") as string;
 
     if (!name || !email || !password || !whatsapp) {
       return { error: "Tamam fields zaroori hain!" };
@@ -31,7 +32,7 @@ export async function signUpUser(formData: FormData) {
       email,
       password: hashedPassword,
       whatsapp,
-      skill, // 🔴 Database mein save kar diya
+      skill,
     });
 
     return { success: true };
@@ -41,25 +42,31 @@ export async function signUpUser(formData: FormData) {
   }
 }
 
+// 🔴 Secure Login Action
+export async function loginUser(formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
 
-    const existingUsers = await db.select().from(users).where(eq(users.email, email));
-    const user = existingUsers[0];
-
-    if (!user) {
+  try {
+    const foundUser = await db.select().from(users).where(eq(users.email, email));
+    
+    if (foundUser.length === 0) {
       return { error: "Yeh account mojood nahi. Pehle Signup karein." };
     }
 
+    const user = foundUser[0];
     const isValidPassword = await bcrypt.compare(password, user.password);
+    
     if (!isValidPassword) {
       return { error: "Password ghalat hai!" };
     }
 
     const cookieStore = await cookies();
-    cookieStore.set("user_session", user.id.toString(), {
-      httpOnly: true,
+    cookieStore.set("user_session", String(user.id), { 
+      path: "/", 
+      httpOnly: true, 
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-      path: "/",
+      maxAge: 60 * 60 * 24 * 30 // 30 Days login
     });
 
     return { success: true };
@@ -69,11 +76,13 @@ export async function signUpUser(formData: FormData) {
   }
 }
 
+// 🔴 Logout Action
 export async function logoutUser() {
   const cookieStore = await cookies();
   cookieStore.delete("user_session");
 }
 
+// 🔴 AI Roadmap Generator
 export async function generateRoadmap(formData: FormData) {
   try {
     const skillLevel = formData.get("skillLevel");
@@ -154,6 +163,8 @@ export async function generateRoadmap(formData: FormData) {
     return { error: "AI Engine is waqt overload hai. Thodi der baad try karein." };
   }
 }
+
+// 🔴 Payment Submission
 export async function submitPayment(formData: FormData) {
   try {
     const cookieStore = await cookies();
@@ -164,7 +175,6 @@ export async function submitPayment(formData: FormData) {
     const tid = formData.get("tid") as string;
     if (!tid) return { error: "Transaction ID (TID) zaroori hai!" };
 
-    // User ka status 'pending' kar do aur TID save kar lo
     await db.update(users)
       .set({ payment_status: "pending", tid: tid })
       .where(eq(users.id, parseInt(userId)));
@@ -175,6 +185,7 @@ export async function submitPayment(formData: FormData) {
     return { error: "System masla kar raha hai. Thodi der baad try karein." };
   }
 }
+
 // 🔴 Admin: Approve Payment
 export async function approvePayment(userId: number) {
   try {
@@ -205,9 +216,10 @@ export async function rejectPayment(userId: number) {
     return { error: "Rejection failed" };
   }
 }
+
+// 🔴 Google Drive Fetch API
 export async function getDriveVideos(folderId: string) {
   const API_KEY = process.env.GOOGLE_DRIVE_API_KEY;
-  // Drive API se files fetch karna (Sirf MP4 aur videos)
   const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType+contains+'video/'&orderBy=name&fields=files(id,name,thumbnailLink)&key=${API_KEY}`;
 
   try {
@@ -220,7 +232,7 @@ export async function getDriveVideos(folderId: string) {
   }
 }
 
-// Course add karte waqt Folder ID save karne ka action
+// 🔴 Admin: Add Drive Course
 export async function addDriveCourse(formData: FormData) {
   const title = formData.get("title") as string;
   const folderId = formData.get("folder_id") as string;
@@ -230,38 +242,4 @@ export async function addDriveCourse(formData: FormData) {
     category: "Premium" 
   });
   return { success: true };
-}
-// 🔴 Secure Login Action
-export async function loginUser(formData: FormData) {
-  "use server";
-  
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  try {
-    const foundUser = await db.select().from(users).where(eq(users.email, email));
-    
-    if (foundUser.length === 0) {
-      return { error: "Yeh account mojood nahi. Pehle Signup karein." };
-    }
-
-    const user = foundUser[0];
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    
-    if (!isValidPassword) {
-      return { error: "Password ghalat hai!" };
-    }
-
-    const cookieStore = await cookies();
-    cookieStore.set("user_session", String(user.id), { 
-      path: "/", 
-      httpOnly: true, 
-      maxAge: 60 * 60 * 24 * 30 
-    });
-
-    return { success: true };
-  } catch (err: any) {
-    console.error("Login Error:", err);
-    return { error: "Server masla kar raha hai. Thodi der baad try karein." };
-  }
 }
