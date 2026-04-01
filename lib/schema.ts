@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, boolean, integer, timestamp } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -6,8 +6,9 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   whatsapp: text("whatsapp"),
-  isPremium: boolean("is_premium").default(false),
-  referralCode: text("referral_code").unique(),
-  referredBy: integer("referred_by"),
-  createdAt: timestamp("created_at").defaultNow(),
+  skill: text("skill"), 
+  is_premium: boolean("is_premium").default(false),
+  referral_code: text("referral_code").unique(),
+  referred_by: integer("referred_by"),
+  created_at: timestamp("created_at").defaultNow(),
 });
