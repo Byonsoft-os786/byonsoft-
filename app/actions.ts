@@ -231,7 +231,6 @@ export async function addDriveCourse(formData: FormData) {
   });
   return { success: true };
 }
-
 // 🔴 Secure Login Action
 export async function loginUser(formData: FormData) {
   "use server";
@@ -240,30 +239,29 @@ export async function loginUser(formData: FormData) {
   const password = formData.get("password") as string;
 
   try {
-    // 1. User find karein
     const foundUser = await db.select().from(users).where(eq(users.email, email));
+    
     if (foundUser.length === 0) {
-      return { error: "User not found!" };
+      return { error: "Yeh account mojood nahi. Pehle Signup karein." };
     }
 
     const user = foundUser[0];
-
-    // 2. Password check karein
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      return { error: "Incorrect password!" };
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    
+    if (!isValidPassword) {
+      return { error: "Password ghalat hai!" };
     }
 
-    // 3. 🔴 Cookie Set Karein (Yahi asal jadoo hai)
     const cookieStore = await cookies();
     cookieStore.set("user_session", String(user.id), { 
       path: "/", 
-      httpOnly: true, // Super secure
-      maxAge: 60 * 60 * 24 * 30 // 30 days tak login rahega
+      httpOnly: true, 
+      maxAge: 60 * 60 * 24 * 30 
     });
 
     return { success: true };
-  } catch (err) {
-    return { error: "Something went wrong!" };
+  } catch (err: any) {
+    console.error("Login Error:", err);
+    return { error: "Server masla kar raha hai. Thodi der baad try karein." };
   }
 }
