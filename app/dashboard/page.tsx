@@ -2,10 +2,10 @@ import React from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { db } from "../../../lib/db"; // Aap ke path ke hisaab se (agar error aaye toh '../lib/db' kar lein)
-import { users } from "../../../lib/schema"; 
+import { db } from "../../lib/db"; 
+import { users } from "../../lib/schema"; 
 import { eq } from "drizzle-orm";
-import { logoutUser } from "../../actions";
+import { logoutUser } from "../actions";
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
@@ -13,7 +13,6 @@ export default async function DashboardPage() {
 
   if (!userId) redirect("/login");
 
-  // Database se user aur uski status (Premium/Free) nikalna
   const userData = await db.select().from(users).where(eq(users.id, parseInt(userId)));
   const user = userData[0];
 
