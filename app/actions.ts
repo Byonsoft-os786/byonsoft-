@@ -162,3 +162,24 @@ export async function generateRoadmap(formData: FormData) {
     return { error: "AI Engine is waqt overload hai. Thodi der baad try karein." };
   }
 }
+export async function submitPayment(formData: FormData) {
+  try {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("user_session")?.value;
+
+    if (!userId) return { error: "Login zaroori hai!" };
+
+    const tid = formData.get("tid") as string;
+    if (!tid) return { error: "Transaction ID (TID) zaroori hai!" };
+
+    // User ka status 'pending' kar do aur TID save kar lo
+    await db.update(users)
+      .set({ payment_status: "pending", tid: tid })
+      .where(eq(users.id, parseInt(userId)));
+
+    return { success: true };
+  } catch (err: any) {
+    console.error("Payment Error:", err);
+    return { error: "System masla kar raha hai. Thodi der baad try karein." };
+  }
+}
