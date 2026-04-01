@@ -239,3 +239,41 @@ export async function addDriveCourse(formData: FormData) {
   });
   return { success: true };
 }
+import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
+
+// 🔴 Secure Login Action
+export async function loginUser(formData: FormData) {
+  "use server";
+  
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  try {
+    // 1. User find karein
+    const foundUser = await db.select().from(users).where(eq(users.email, email));
+    if (foundUser.length === 0) {
+      return { error: "User not found!" };
+    }
+
+    const user = foundUser[0];
+
+    // 2. Password check karein
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return { error: "Incorrect password!" };
+    }
+
+    // 3. 🔴 Cookie Set Karein (Yahi asal jadoo hai)
+    const cookieStore = await cookies();
+    cookieStore.set("user_session", String(user.id), { 
+      path: "/", 
+      httpOnly: true, // Super secure
+      maxAge: 60 * 60 * 24 * 30 // 30 days tak login rahega
+    });
+
+    return { success: true };
+  } catch (err) {
+    return { error: "Something went wrong!" };
+  }
+}
