@@ -41,14 +41,6 @@ export async function signUpUser(formData: FormData) {
   }
 }
 
-export async function loginUser(formData: FormData) {
-  try {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    if (!email || !password) {
-      return { error: "Email aur Password dono zaroori hain!" };
-    }
 
     const existingUsers = await db.select().from(users).where(eq(users.email, email));
     const user = existingUsers[0];
