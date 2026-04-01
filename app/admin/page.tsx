@@ -6,7 +6,6 @@ import { db } from "../../lib/db";
 import { users } from "../../lib/schema"; 
 import { eq, desc } from "drizzle-orm";
 import { approvePayment, rejectPayment } from "../actions";
-// 🔴 FIX: Yahan 'CheckCircle' aur 'ExternalLink' sab add kar diye hain!
 import { 
   Shield, Users, CreditCard, Check, X, Eye, 
   TrendingUp, Gift, Tag, Trophy, LogOut, ExternalLink, CheckCircle
@@ -173,4 +172,31 @@ export default async function AdminPage() {
             </h3>
             <div className="flex gap-3">
               <input type="text" placeholder="CODE: BYON500" className="flex-1 bg-black border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-blue-500 transition-all uppercase font-bold tracking-widest text-sm" />
-              <button className="bg-blue-600 hover:bg
+              <button className="bg-blue-600 hover:bg-blue-500 text-white font-black px-8 rounded-2xl transition-all shadow-lg shadow-blue-900/30 active:scale-95">CREATE</button>
+            </div>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-md relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl rounded-full" />
+            <h3 className="text-xl font-black mb-6 flex items-center gap-3 text-white">
+              <Trophy className="text-purple-500" /> MILESTONE STATUS
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+                <span className="text-gray-500">Phase 1: 300 MEMBERS</span>
+                <span className="text-purple-500">{activeSubscribers.length} / 300</span>
+              </div>
+              <div className="w-full h-4 bg-black rounded-full overflow-hidden border border-white/10 p-1">
+                <div 
+                  className="h-full bg-gradient-to-r from-purple-600 via-blue-500 to-green-400 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(168,85,247,0.4)]" 
+                  style={{ width: `${Math.min(100, (activeSubscribers.length / 300) * 100)}%` }} 
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  );
+}
