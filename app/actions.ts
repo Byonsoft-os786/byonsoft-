@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "../lib/db";
-import { users } from "../lib/schema";
+import { users, courses, coupons, payment_settings } from "../lib/schema";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
