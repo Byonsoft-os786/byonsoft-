@@ -307,7 +307,7 @@ export default async function AdminPage({ searchParams }: { searchParams: { tab?
                               </form>
                               <form action={toggleRole}>
                                 <input type="hidden" name="id" value={u.id} />
-                                <input type="hidden" name="role" value={u.role} />
+                                <input type="hidden" name="role" value={u.role || "user"} />
                                 <button className="px-4 py-2.5 border border-white/10 text-gray-400 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
                                   {u.role === 'admin' ? 'Remove Admin' : 'Make Admin'}
                                 </button>
