@@ -13,6 +13,7 @@ export async function signUpUser(formData: FormData) {
     const email = formData.get("email") as string;
     const whatsapp = formData.get("whatsapp") as string;
     const password = formData.get("password") as string;
+    const skill = formData.get("skill") as string; // 🔴 Test result yahan pakra
 
     if (!name || !email || !password || !whatsapp) {
       return { error: "Tamam fields zaroori hain!" };
@@ -30,6 +31,7 @@ export async function signUpUser(formData: FormData) {
       email,
       password: hashedPassword,
       whatsapp,
+      skill, // 🔴 Database mein save kar diya
     });
 
     return { success: true };
