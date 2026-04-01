@@ -183,3 +183,33 @@ export async function submitPayment(formData: FormData) {
     return { error: "System masla kar raha hai. Thodi der baad try karein." };
   }
 }
+// 🔴 Admin: Approve Payment
+export async function approvePayment(userId: number) {
+  try {
+    await db.update(users)
+      .set({ 
+        is_premium: true, 
+        payment_status: "paid" 
+      })
+      .where(eq(users.id, userId));
+    return { success: true };
+  } catch (err) {
+    return { error: "Approval failed" };
+  }
+}
+
+// 🔴 Admin: Reject Payment
+export async function rejectPayment(userId: number) {
+  try {
+    await db.update(users)
+      .set({ 
+        payment_status: "unpaid", 
+        tid: null, 
+        screenshot: null 
+      })
+      .where(eq(users.id, userId));
+    return { success: true };
+  } catch (err) {
+    return { error: "Rejection failed" };
+  }
+}
