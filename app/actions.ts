@@ -66,7 +66,7 @@ export async function loginUser(formData: FormData) {
       path: "/", 
       httpOnly: true, 
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 30 // 30 Days login
+      maxAge: 60 * 60 * 24 * 30 
     });
 
     return { success: true };
