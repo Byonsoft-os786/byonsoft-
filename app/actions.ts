@@ -239,8 +239,6 @@ export async function addDriveCourse(formData: FormData) {
   });
   return { success: true };
 }
-import { cookies } from "next/headers";
-import bcrypt from "bcryptjs";
 
 // 🔴 Secure Login Action
 export async function loginUser(formData: FormData) {
