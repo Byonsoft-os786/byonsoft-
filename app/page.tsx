@@ -70,9 +70,10 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 🔴 Infinite Moving Ticker Band - Social Proof Bomb */}
+      {/* 🔴 Infinite Moving Ticker Band - Social Proof Bomb (FIXED FOR MOBILE) */}
       <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent border-t border-yellow-400/30 overflow-hidden z-20 flex items-center">
-        <div className="animate-ticker w-[200%] flex gap-20 text-yellow-400 font-bold text-sm tracking-wide uppercase px-10">
+        {/* Yahan 'whitespace-nowrap' aur 'w-max' lagaya hai taake mobile par line tootay na */}
+        <div className="animate-ticker flex whitespace-nowrap gap-10 md:gap-20 text-yellow-400 font-bold text-xs md:text-sm tracking-wide uppercase px-10 w-max">
           <span>● Live applications: 12,543</span>
           <span>● Last Premium upgrade: 2 mins ago</span>
           <span>● April target: 94% REACHED</span>
@@ -80,6 +81,7 @@ export default function HomePage() {
           <span>● Slots remaining for April: 14</span>
           <span>● JOIN THE FUTURE OF DIGITAL SUCCESS</span>
           <span>● Live applications: 12,543</span>
+          <span>● Last Premium upgrade: 2 mins ago</span>
           <span>● April target: 94% REACHED</span>
         </div>
       </div>
